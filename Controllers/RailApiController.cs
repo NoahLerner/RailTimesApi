@@ -32,5 +32,8 @@ namespace RailTimesApi.Controllers
             ResponseObject resObj = JsonSerializer.Deserialize<ResponseObject>(response);
             return resObj;
         }
+
+        [HttpPost]
+        public async Task<
     }
 }
