@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Text.Json;
+using RailTimesApi.Models;
 
 namespace RailTimesApi.Controllers
 {
@@ -22,11 +24,13 @@ namespace RailTimesApi.Controllers
         }
 
         [HttpGet]
-        public string Get()
+        public async Task<ResponseObject> Get()
         {
             HttpClient railClient = _railClient.CreateClient();
-            railClient.BaseAddress = 
-            return "hey";
+            //railClient.BaseAddress = new Uri(@"www.rail.co.il");
+            string response = await railClient.GetStringAsync(@"http://www.rail.co.il/apiinfo/api/Plan/GetRoutes?OId=5200&TId=5900&Date=20200112&Hour=0900");
+            ResponseObject resObj = JsonSerializer.Deserialize<ResponseObject>(response);
+            return resObj;
         }
     }
 }
