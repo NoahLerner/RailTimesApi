@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using RailTimesApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RailTimesApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class RailApiController : ControllerBase
