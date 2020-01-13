@@ -28,12 +28,19 @@ namespace RailTimesApi.Controllers
         {
             HttpClient railClient = _railClient.CreateClient();
             //railClient.BaseAddress = new Uri(@"www.rail.co.il");
-            string response = await railClient.GetStringAsync(@"http://www.rail.co.il/apiinfo/api/Plan/GetRoutes?OId=5200&TId=5900&Date=20200112&Hour=0900");
+            string response = await railClient.GetStringAsync(@"http://www.rail.co.il/apiinfo/api/Plan/GetRoutes?OId={5200}&TId={5900}&Date={20200112}&Hour={0900}");
             ResponseObject resObj = JsonSerializer.Deserialize<ResponseObject>(response);
             return resObj;
         }
 
-        [HttpPost]
-        public async Task<
+        [HttpGet("{user}")]
+        public async Task<ResponseObject> Get(int user)
+        {
+
+            HttpClient railClient = _railClient.CreateClient();
+            var response = await railClient.GetStringAsync($"http://www.rail.co.il/apiinfo/api/Plan/GetRoutes?OId={3500}&TId={5200}&Date={DateTime.Now.ToString("yyyyMMdd")}&Hour={DateTime.Now.Hour}{DateTime.Now.Minute}");
+            ResponseObject resObj = JsonSerializer.Deserialize<ResponseObject>(response);
+            return resObj;        
+        }
     }
 }
