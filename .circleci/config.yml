@@ -11,6 +11,7 @@ jobs:
          docker build -t railtimesapi -f DockerFile .
      # deploy the image
      - run: |         
+         context: Docker
          docker login --username=$HEROKU_USERNAME --password=$HEROKU_API_KEY registry.heroku.com
          docker tag railtimesapi registry.heroku.com/rail-delay-app/web
          docker push registry.heroku.com/rail-delay-app/web                
