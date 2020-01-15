@@ -27,12 +27,25 @@ namespace RailTimesApi
         }
 
         public IConfiguration Configuration { get; }
+        readonly string AllowFrontEndCors = "AllowFrontEndAppAccessCors";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddHttpClient();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowFrontEndCors,
+                builder =>
+                {
+                    builder
+                        .WithOrigins("http://localhost:3000", "https://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>(options => 
@@ -76,6 +89,8 @@ namespace RailTimesApi
             }
 
             SeedDB.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
+
+            app.UseCors(AllowFrontEndCors); 
 
             app.UseHttpsRedirection();
 

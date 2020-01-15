@@ -33,6 +33,7 @@ namespace RailTimesApi.Controllers
                 if(user != null && await userManager.CheckPasswordAsync(user, model.Password))
                 {
 
+                    // add the claim (unique user identifiers) to token
                     var authClaims = new[]
                     {
                         new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
@@ -42,11 +43,11 @@ namespace RailTimesApi.Controllers
                     var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("secret key for noahs super awesome project"));
 
                     var token = new JwtSecurityToken(
-                        issuer: "willthiswork",
-                        audience: "willthiswork",
-                        expires: DateTime.Now.AddHours(3),
-                        claims: authClaims,
-                        signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                            issuer: "willthiswork",
+                            audience: "willthiswork",
+                            expires: DateTime.Now.AddHours(3),
+                            claims: authClaims,
+                            signingCredentials: new Microsoft.IdentityModel.Tokens.SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                         );
 
                     return Ok(new
