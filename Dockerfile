@@ -15,4 +15,4 @@ WORKDIR /app
 COPY --from=build /app/out .
 
 # Heroku works better with CMD, not ENTRYPOINT
-CMD dotnet RailTimesApi.dll
+CMD ASPNETCORE_URLS=http://*:$PORT dotnet RailTimesApi.dll
