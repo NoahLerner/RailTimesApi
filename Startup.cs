@@ -47,7 +47,7 @@ namespace RailTimesApi
                 });
             });
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MsSqlDockerConn")));
             services.AddIdentity<ApplicationUser, IdentityRole>(options => 
                 {
                     options.Password.RequiredLength = 4;
